@@ -37,21 +37,32 @@ import android.widget.Toast;
  *
  */
 public class MainActivity extends Activity implements RecognitionListener {
-    private static final int VOICE_REQUEST_CODE = 123;
     
     SpeechRecognizer speechRecognizer;
+    boolean starting = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        // 保存ボタン
+        // 開始ボタン
         Button btn = (Button) this.findViewById(R.id.button1);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                starting = true;
+                setStatusText("認識中");
                 voiceSearch();
+            }
+        });
+        
+        // 停止ボタン
+        Button btn2 = (Button) this.findViewById(R.id.button2);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopVoiceSearch();
             }
         });
         
@@ -73,16 +84,14 @@ public class MainActivity extends Activity implements RecognitionListener {
      * 音声認識インテント発行
      */
     private void voiceSearch() {
+        if (!starting) {
+            return;
+        }
+        
         try {
             // インテント作成
             Intent intent = new Intent(
                     RecognizerIntent.ACTION_RECOGNIZE_SPEECH); // ACTION_WEB_SEARCH
-//            intent.putExtra(
-//                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-//                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-//            intent.putExtra(
-//                    RecognizerIntent.EXTRA_PROMPT,
-//                    "VoiceRecognitionTest");
             
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                             RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -90,42 +99,15 @@ public class MainActivity extends Activity implements RecognitionListener {
                             getPackageName());
             
             // インテント発行
-//            startActivityForResult(intent, VOICE_REQUEST_CODE);
             speechRecognizer.startListening(intent);
             Log.d("voice", "認識中");
             setStatusText("認識中");
         } catch (ActivityNotFoundException e) {
-            // このインテントに応答できるアクティビティがインストールされていない場合
             Toast.makeText(this,
                 "ActivityNotFoundException", Toast.LENGTH_LONG).show();
         }
     }
     
-    /**
-     * アクティビティ結果処理
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 自分が投げたインテントであれば応答する
-        if (requestCode == VOICE_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (resultCode == RESULT_OK) {
-                // 結果文字列リスト
-                ArrayList<String> results = data.getStringArrayListExtra(
-                        RecognizerIntent.EXTRA_RESULTS);
-                
-                // トーストを使って結果を表示
-                Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
-                EditText accountText = (EditText) this.findViewById(R.id.editText1);
-                
-                postData(accountText.getText().toString(), results.get(0));
-            }
-            
-            voiceSearch();
-        }
-        
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     /**
      * テキストをサーバにポストする
      * 
@@ -167,10 +149,8 @@ public class MainActivity extends Activity implements RecognitionListener {
             try {
                 Log.d("================", EntityUtils.toString(response.getEntity()));
             } catch (IllegalStateException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -231,13 +211,11 @@ public class MainActivity extends Activity implements RecognitionListener {
 
     @Override
     public void onBeginningOfSpeech() {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public void onBufferReceived(byte[] arg0) {
-        // TODO Auto-generated method stub
         
     }
 
@@ -248,13 +226,11 @@ public class MainActivity extends Activity implements RecognitionListener {
 
     @Override
     public void onEvent(int arg0, Bundle arg1) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public void onPartialResults(Bundle arg0) {
-        // TODO Auto-generated method stub
         
     }
 
@@ -268,6 +244,7 @@ public class MainActivity extends Activity implements RecognitionListener {
      */
     @Override
     public void onResults(Bundle results) {
+        setStatusText("送信中");
         ArrayList<String> recData = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         Log.d("voice", recData.get(0));
@@ -282,7 +259,6 @@ public class MainActivity extends Activity implements RecognitionListener {
 
     @Override
     public void onRmsChanged(float arg0) {
-        // TODO Auto-generated method stub
         
     }
     
@@ -302,5 +278,13 @@ public class MainActivity extends Activity implements RecognitionListener {
     private void setTermText(String text) {
         TextView termText = (TextView) this.findViewById(R.id.textView_term);
         termText.setText(text);
+    }
+    
+    /**
+     * 認識を停止する
+     */
+    private void stopVoiceSearch() {
+        starting = false;
+        setStatusText("停止中");
     }
 }

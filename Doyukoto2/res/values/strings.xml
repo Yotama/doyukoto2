@@ -8,5 +8,7 @@
     <string name="保存">save</string>
     <string name="save">保存</string>
     <string name="status_text">ステータス</string>
+    <string name="stop">停止</string>
+    <string name="start">開始</string>
 
 </resources>
