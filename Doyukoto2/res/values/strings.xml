@@ -7,5 +7,6 @@
     <string name="account">account</string>
     <string name="保存">save</string>
     <string name="save">保存</string>
+    <string name="status_text">ステータス</string>
 
 </resources>

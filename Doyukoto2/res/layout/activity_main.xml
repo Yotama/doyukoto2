@@ -36,4 +36,22 @@
         android:layout_marginTop="18dp"
         android:text="@string/save" />
 
+    <TextView
+        android:id="@+id/textView_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="61dp"
+        android:text="@string/status_text" />
+
+    <TextView
+        android:id="@+id/textView_term"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_status"
+        android:layout_below="@+id/textView_status"
+        android:layout_marginTop="34dp"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>
