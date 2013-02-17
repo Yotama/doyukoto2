@@ -27,16 +27,6 @@
         <requestFocus />
     </EditText>
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_alignRight="@+id/textView_term"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="18dp"
-        android:text="@string/start" />
-
     <TextView
         android:id="@+id/textView_status"
         android:layout_width="wrap_content"
@@ -51,9 +41,19 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView_status"
         android:layout_below="@+id/textView_status"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="64dp"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_term"
+        android:layout_alignRight="@+id/textView_status"
+        android:layout_below="@+id/textView_status"
+        android:layout_marginTop="36dp"
+        android:text="@string/termLabel" />
 
     <Button
         android:id="@+id/button2"
@@ -62,5 +62,14 @@
         android:layout_above="@+id/textView_status"
         android:layout_alignRight="@+id/editText1"
         android:text="@string/stop" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText1"
+        android:layout_below="@+id/editText1"
+        android:layout_marginTop="20dp"
+        android:text="@string/start" />
 
 </RelativeLayout>

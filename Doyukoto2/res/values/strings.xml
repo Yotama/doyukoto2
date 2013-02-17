@@ -10,5 +10,6 @@
     <string name="status_text">ステータス</string>
     <string name="stop">停止</string>
     <string name="start">開始</string>
+    <string name="termLabel">認識文字列</string>
 
 </resources>

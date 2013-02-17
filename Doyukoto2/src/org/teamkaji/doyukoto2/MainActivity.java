@@ -205,8 +205,10 @@ public class MainActivity extends Activity implements RecognitionListener {
         
         Log.e("voice", errorMsg);
         Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
-        setStatusText(errorMsg);
-        voiceSearch();
+        if (starting) {
+            setStatusText(errorMsg);
+            voiceSearch();
+        }
     }
 
     @Override
@@ -244,6 +246,10 @@ public class MainActivity extends Activity implements RecognitionListener {
      */
     @Override
     public void onResults(Bundle results) {
+        if (!starting) {
+            return;
+        }
+        
         setStatusText("送信中");
         ArrayList<String> recData = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
